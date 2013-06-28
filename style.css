@@ -1,6 +1,4 @@
-
-<!-- - vars = package.json-->
-<element name="polymer-ui-toolbar" extends="polymer-ui-theme-aware" attributes="theme"><style type="text/css">/*
+/*
 Copyright 2013 The Polymer Authors. All rights reserved.
 Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file.
@@ -38,16 +36,3 @@ license that can be found in the LICENSE file.
 content::-webkit-distributed(> *) {
   margin: 0 8px;
 }
-</style>
-  <template>
-    <content></content>
-  </template>
-  <script>
-    Polymer.register(this, {
-      ready: function() {
-        this.setAttribute('touch-action', 'none');
-        this.appendChild(document.createElement('polymer-flex-layout')).align = 'center';
-      }
-    });
-  </script>
-</element>

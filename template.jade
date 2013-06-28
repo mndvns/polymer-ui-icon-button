@@ -1,26 +1,13 @@
 // - vars = package.json
 
-element(name=locals.name, \attributes="theme")
+element(name=locals.name, extends="polymer-ui-theme-aware", \attributes="theme")
+  include style.css
+  template
+    content
   script.
     Polymer.register(this, {
-      inserted: function() {
-        if (!this.theme) {
-          this.findTheme();
-        }
-      },
-      findTheme: findTheme,
-      themeChanged: function(old) {
-        this.classList.switch(old, this.theme);
+      ready: function() {
+        this.setAttribute('touch-action', 'none');
+        this.appendChild(document.createElement('polymer-flex-layout')).align = 'center';
       }
     });
-    function findTheme() {
-      var p = this, theme;
-      while (p && !theme) {
-        theme = p.getAttribute && p.getAttribute('theme');
-        p = p.parentNode || p.host;
-      }
-      this.theme = theme;
-    };
-    PolymerUI = { 
-      findTheme: findTheme
-    };

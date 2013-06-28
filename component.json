@@ -1,11 +1,13 @@
 {
-  "name": "polymer-ui-theme-aware",
-  "repo": "mvanasse/polymer-ui-theme-aware",
+  "name": "polymer-ui-toolbar",
+  "repo": "mvanasse/polymer-ui-toolbar",
   "description": "",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "mvanasse/polymer": "*"
+    "mvanasse/polymer": "*",
+    "mvanasse/polymer-flex-layout": "*",
+    "mvanasse/polymer-ui-theme-aware": "*"
   },
   "development": {},
   "license": "MIT",
@@ -13,5 +15,8 @@
   "scripts": [
     "index.js",
     "template.js"
+  ],
+  "styles": [
+    "style.css"
   ]
 }
