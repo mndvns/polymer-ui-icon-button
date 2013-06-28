@@ -1,12 +1,11 @@
 {
-  "name": "polymer-ui-toolbar",
-  "repo": "mvanasse/polymer-ui-toolbar",
+  "name": "polymer-ui-icon",
+  "repo": "mvanasse/polymer-ui-icon",
   "description": "",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
     "mvanasse/polymer": "*",
-    "mvanasse/polymer-flex-layout": "*",
     "mvanasse/polymer-ui-theme-aware": "*"
   },
   "development": {},

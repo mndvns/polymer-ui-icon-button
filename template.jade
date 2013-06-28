@@ -1,13 +1,61 @@
 // - vars = package.json
 
-element(name=locals.name, extends="polymer-ui-theme-aware", \attributes="theme")
+element(name=locals.name, extends="polymer-ui-theme-aware", \attributes="src size index icon")
   include style.css
   template
-    content
+    #icon
   script.
     Polymer.register(this, {
-      ready: function() {
-        this.setAttribute('touch-action', 'none');
-        this.appendChild(document.createElement('polymer-flex-layout')).align = 'center';
-      }
-    });
+          /**
+          * The URL of an image for the icon.
+          *
+          * @attribute src
+          * @type string
+          * @default ''
+          */
+          src: '',
+          /**
+          * Specifies the size of the icon.
+          *
+          * @attribute size
+          * @type string
+          * @default 24
+          */
+          size: 24,
+          icon: '',
+          bx: 0,
+          by: 0,
+          iconChanged: function() {
+            this.index = this.icon in icons ? icons[this.icon] : -1;
+          },
+          indexChanged: function() {
+            this.$.icon.classList.add('polymer-ui-icons');
+            this.by = -this.size * this.index;
+            this.updateIcon();
+          },
+          srcChanged: function() {
+            this.$.icon.classList.remove('polymer-ui-icons');
+            this.$.icon.setAttribute('style', 'background:url(' + this.src + ') center;');
+          },
+          themeChanged: function(old) {
+            this.$.icon.style.backgroundPosition = '';
+            this.$.icon.classList.switch(old, this.theme);
+            this.asyncMethod('updateIcon');
+          },
+          updateIcon: function() {
+            this.bx = parseFloat(getComputedStyle(this.$.icon).backgroundPosition.split(' ').shift());
+            this.$.icon.style.backgroundPosition = (this.bx + 'px') + ' ' + (this.by + 'px');
+          }
+        });
+        var icons = {
+          drawer: 0,
+          menu: 1,
+          search: 2,
+          dropdown: 3,
+          close: 4,
+          add: 5,
+          trash: 6,
+          refresh: 7,
+          settings: 8,
+          dialog: 9
+        };

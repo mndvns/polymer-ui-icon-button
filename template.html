@@ -1,53 +1,95 @@
 
 <!-- - vars = package.json-->
-<element name="polymer-ui-toolbar" extends="polymer-ui-theme-aware" attributes="theme"><style type="text/css">/*
+<element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon"><style type="text/css">/*
 Copyright 2013 The Polymer Authors. All rights reserved.
 Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file.
 */
-
 @host {
   * {
-    /* technical */
-    display: block;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    /* border/shadow */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.28);
-    /* size */
-    height: 60px;
-    font-size: 21px;
-  }
-
-  .polymer-ui-light-theme {
-    background: #f2f2f2 -webkit-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
-    background: #f2f2f2 -moz-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
-    background: #f2f2f2 -ms-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
-    color: #333333;
-  }
-
-  .polymer-ui-dark-theme {
-    background: #333333 -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.9));
-    background: #333333 -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.9));
-    background: #333333 -ms-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.9));
-    color: #ededed;
+    display: inline-block;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
   }
 }
 
-/*@polyfill @host > * */
-content::-webkit-distributed(> *) {
-  margin: 0 8px;
+#icon {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background-repeat: no-repeat;
+}
+
+#icon.polymer-ui-dark-icon, #icon.polymer-ui-light-theme {
+  background-position: -24px 0;
+}
+
+#icon.polymer-ui-light-icon, #icon.polymer-ui-dark-theme {
+  background-position: -72px 0;
+}
+
+.polymer-ui-icons {
+  background: url(../assets/action-icons.png) 0 0 no-repeat;
 }
 </style>
   <template>
-    <content></content>
+    <div id="icon"></div>
   </template>
   <script>
     Polymer.register(this, {
-      ready: function() {
-        this.setAttribute('touch-action', 'none');
-        this.appendChild(document.createElement('polymer-flex-layout')).align = 'center';
-      }
+          /**
+          * The URL of an image for the icon.
+          *
+          * @attribute src
+          * @type string
+          * @default ''
+          */
+          src: '',
+          /**
+          * Specifies the size of the icon.
+          *
+          * @attribute size
+          * @type string
+          * @default 24
+          */
+          size: 24,
+          icon: '',
+          bx: 0,
+          by: 0,
+          iconChanged: function() {
+            this.index = this.icon in icons ? icons[this.icon] : -1;
+          },
+          indexChanged: function() {
+            this.$.icon.classList.add('polymer-ui-icons');
+            this.by = -this.size * this.index;
+            this.updateIcon();
+          },
+          srcChanged: function() {
+            this.$.icon.classList.remove('polymer-ui-icons');
+            this.$.icon.setAttribute('style', 'background:url(' + this.src + ') center;');
+          },
+          themeChanged: function(old) {
+            this.$.icon.style.backgroundPosition = '';
+            this.$.icon.classList.switch(old, this.theme);
+            this.asyncMethod('updateIcon');
+          },
+          updateIcon: function() {
+            this.bx = parseFloat(getComputedStyle(this.$.icon).backgroundPosition.split(' ').shift());
+            this.$.icon.style.backgroundPosition = (this.bx + 'px') + ' ' + (this.by + 'px');
+          }
     });
+        var icons = {
+          drawer: 0,
+          menu: 1,
+          search: 2,
+          dropdown: 3,
+          close: 4,
+          add: 5,
+          trash: 6,
+          refresh: 7,
+          settings: 8,
+          dialog: 9
+        };
   </script>
 </element>
