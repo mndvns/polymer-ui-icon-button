@@ -1,0 +1,12 @@
+// - vars = package.json
+
+element(name=locals.name, \attributes="fullbleed")
+  // template
+  // include style.css
+  :coffeescript(bare=true)
+    Polymer.register this,
+      fullbleed : true
+      inserted  : ->
+        document.head.style.cssText += "height: 100%; overflow: hidden; margin: 0;"
+        document.body.style.cssText += "position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden;"
+        document.body.style.transition = "all 0.3s"

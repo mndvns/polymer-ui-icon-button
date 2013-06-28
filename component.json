@@ -1,0 +1,17 @@
+{
+  "name": "polymer-page",
+  "repo": "mvanasse/polymer-page",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "mvanasse/polymer": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "template.js"
+  ]
+}

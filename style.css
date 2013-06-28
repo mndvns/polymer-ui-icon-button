@@ -1,0 +1,7 @@
+element[name=polymer-layout] {
+  display: block;
+}
+element[name=polymer-layout] template {
+  background: #f00;
+  padding: 50px;
+}
