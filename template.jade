@@ -1,35 +1,26 @@
 // - vars = package.json
 
-element(name=locals.name, \attributes="open closed vertical target targetId")
-  template
-    style
-      @host {
-        * {
-          display: none;
+element(name=locals.name, \attributes="theme")
+  script.
+    Polymer.register(this, {
+      inserted: function() {
+        if (!this.theme) {
+          this.findTheme();
         }
+      },
+      findTheme: findTheme,
+      themeChanged: function(old) {
+        this.classList.switch(old, this.theme);
       }
-    include style.css
-
-  :coffeescript(bare=true)
-    element = this
-    Polymer.register this,
-      vertical: false
-      inserted: ->
-        Polymer.installControllerStyles this, element
-        @layoutContainer = @parentNode.host or @parentNode
-        @layoutContainer.classList.add "flexbox"
-        @verticalChanged()
-        @alignChanged()
-        @justifyChanged()
-
-      switchContainerClass: (prefix, old, name) ->
-        @layoutContainer.classList["swi"+ "tch"] prefix + old, prefix + name  if @layoutContainer and name
-
-      verticalChanged: ->
-        @layoutContainer.classList.toggle "column", @vertical  if @layoutContainer
-
-      alignChanged: (old) ->
-        @switchContainerClass "align-", old, @align
-
-      justifyChanged: (old) ->
-        @switchContainerClass "justify-", old, @justify
+    });
+    function findTheme() {
+      var p = this, theme;
+      while (p && !theme) {
+        theme = p.getAttribute && p.getAttribute('theme');
+        p = p.parentNode || p.host;
+      }
+      this.theme = theme;
+    };
+    PolymerUI = { 
+      findTheme: findTheme
+    };
