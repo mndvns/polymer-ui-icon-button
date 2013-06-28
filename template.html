@@ -1,6 +1,6 @@
 
 <!-- - vars = package.json-->
-<element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon"><style type="text/css">/*
+<element name="polymer-ui-icon-button" attributes="src index icon active"><style type="text/css">/*
 Copyright 2013 The Polymer Authors. All rights reserved.
 Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file.
@@ -8,33 +8,36 @@ license that can be found in the LICENSE file.
 @host {
   * {
     display: inline-block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
     vertical-align: middle;
-    width: 24px;
-    height: 24px;
+    cursor: pointer;
+    background: url(btn_light.png) top left no-repeat;
+    background-size: cover;
+  }
+        
+  *:hover {
+    background-position: 0 -44px;
+  }
+        
+  *.selected {
+    background-position: 0 -88px;
+  }
+        
+  *:active, *.selected:active {
+    background-position: 0 -132px;
   }
 }
 
-#icon {
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  background-repeat: no-repeat;
-}
-
-#icon.polymer-ui-dark-icon, #icon.polymer-ui-light-theme {
-  background-position: -24px 0;
-}
-
-#icon.polymer-ui-light-icon, #icon.polymer-ui-dark-theme {
-  background-position: -72px 0;
-}
-
-.polymer-ui-icons {
-  background: url(../assets/action-icons.png) 0 0 no-repeat;
+polymer-ui-icon {
+  display: block !important;
 }
 </style>
   <template>
-    <div id="icon"></div>
+    <polymer-ui-icon src="{{src}}" index="{{index}}" icon="{{icon}}"></polymer-ui-icon>
   </template>
   <script>
     Polymer.register(this, {
@@ -47,49 +50,27 @@ license that can be found in the LICENSE file.
           */
           src: '',
           /**
-          * Specifies the size of the icon.
+          * If true, border is placed around the button to indicate
+          * active state.
           *
-          * @attribute size
-          * @type string
-          * @default 24
+          * @attribute active
+          * @type boolean
+          * @default false
           */
-          size: 24,
-          icon: '',
-          bx: 0,
-          by: 0,
-          iconChanged: function() {
-            this.index = this.icon in icons ? icons[this.icon] : -1;
-          },
-          indexChanged: function() {
-            this.$.icon.classList.add('polymer-ui-icons');
-            this.by = -this.size * this.index;
-            this.updateIcon();
-          },
-          srcChanged: function() {
-            this.$.icon.classList.remove('polymer-ui-icons');
-            this.$.icon.setAttribute('style', 'background:url(' + this.src + ') center;');
-          },
-          themeChanged: function(old) {
-            this.$.icon.style.backgroundPosition = '';
-            this.$.icon.classList.switch(old, this.theme);
-            this.asyncMethod('updateIcon');
-          },
-          updateIcon: function() {
-            this.bx = parseFloat(getComputedStyle(this.$.icon).backgroundPosition.split(' ').shift());
-            this.$.icon.style.backgroundPosition = (this.bx + 'px') + ' ' + (this.by + 'px');
+          active: false,
+          /**
+          * If a theme is applied that includes an icon set, the index of the 
+          * icon to display.
+          *
+          * @attribute index
+          * @type number
+          * @default -1
+          */     
+          index: -1,
+          activeChanged: function() {
+            // TODO(sjmiles): sugar this common case
+            this.classList.toggle('selected', this.active);
           }
     });
-        var icons = {
-          drawer: 0,
-          menu: 1,
-          search: 2,
-          dropdown: 3,
-          close: 4,
-          add: 5,
-          trash: 6,
-          refresh: 7,
-          settings: 8,
-          dialog: 9
-        };
   </script>
 </element>

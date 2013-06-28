@@ -1,12 +1,12 @@
 {
-  "name": "polymer-ui-icon",
-  "repo": "mvanasse/polymer-ui-icon",
+  "name": "polymer-ui-icon-button",
+  "repo": "mvanasse/polymer-ui-icon-button",
   "description": "",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
     "mvanasse/polymer": "*",
-    "mvanasse/polymer-ui-theme-aware": "*"
+    "mvanasse/polymer-ui-icon": "*"
   },
   "development": {},
   "license": "MIT",
